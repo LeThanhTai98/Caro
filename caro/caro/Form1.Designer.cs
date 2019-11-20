@@ -35,15 +35,15 @@
             this.btnSendText = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnLan = new System.Windows.Forms.Button();
             this.txbIP = new System.Windows.Forms.TextBox();
             this.ptcMark = new System.Windows.Forms.PictureBox();
             this.pcbCoolDown = new System.Windows.Forms.ProgressBar();
             this.txbPlayerName = new System.Windows.Forms.TextBox();
             this.timerCoolDown = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnChangeName = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ptcMark)).BeginInit();
@@ -101,9 +101,9 @@
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.btnChangeName);
             this.panel3.Controls.Add(this.button2);
             this.panel3.Controls.Add(this.button1);
-            this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.btnLan);
             this.panel3.Controls.Add(this.txbIP);
             this.panel3.Controls.Add(this.ptcMark);
@@ -115,19 +115,29 @@
             this.panel3.TabIndex = 2;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
-            // label1
+            // button2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Elephant", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(-6, 189);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(263, 35);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "5 in the line to win";
+            this.button2.Location = new System.Drawing.Point(137, 202);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(117, 75);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "Quit Game";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(7, 202);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(117, 75);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Start Game";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnLan
             // 
-            this.btnLan.Location = new System.Drawing.Point(0, 82);
+            this.btnLan.Location = new System.Drawing.Point(3, 173);
             this.btnLan.Name = "btnLan";
             this.btnLan.Size = new System.Drawing.Size(124, 23);
             this.btnLan.TabIndex = 4;
@@ -137,7 +147,7 @@
             // 
             // txbIP
             // 
-            this.txbIP.Location = new System.Drawing.Point(0, 55);
+            this.txbIP.Location = new System.Drawing.Point(0, 147);
             this.txbIP.Name = "txbIP";
             this.txbIP.Size = new System.Drawing.Size(124, 20);
             this.txbIP.TabIndex = 3;
@@ -146,7 +156,7 @@
             // ptcMark
             // 
             this.ptcMark.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ptcMark.Location = new System.Drawing.Point(130, 0);
+            this.ptcMark.Location = new System.Drawing.Point(137, 91);
             this.ptcMark.Name = "ptcMark";
             this.ptcMark.Size = new System.Drawing.Size(124, 105);
             this.ptcMark.TabIndex = 2;
@@ -154,7 +164,7 @@
             // 
             // pcbCoolDown
             // 
-            this.pcbCoolDown.Location = new System.Drawing.Point(0, 26);
+            this.pcbCoolDown.Location = new System.Drawing.Point(-2, 118);
             this.pcbCoolDown.Name = "pcbCoolDown";
             this.pcbCoolDown.Size = new System.Drawing.Size(124, 23);
             this.pcbCoolDown.TabIndex = 1;
@@ -170,25 +180,15 @@
             // 
             this.timerCoolDown.Tick += new System.EventHandler(this.timerCoolDown_Tick);
             // 
-            // button1
+            // btnChangeName
             // 
-            this.button1.Location = new System.Drawing.Point(7, 111);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(117, 75);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Start Game";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(130, 111);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(117, 75);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "Quit Game";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnChangeName.Location = new System.Drawing.Point(142, -1);
+            this.btnChangeName.Name = "btnChangeName";
+            this.btnChangeName.Size = new System.Drawing.Size(110, 23);
+            this.btnChangeName.TabIndex = 8;
+            this.btnChangeName.Text = "Change Name";
+            this.btnChangeName.UseVisualStyleBackColor = true;
+            this.btnChangeName.Click += new System.EventHandler(this.btnChangeName_Click);
             // 
             // Form1
             // 
@@ -222,13 +222,13 @@
         private System.Windows.Forms.PictureBox ptcMark;
         private System.Windows.Forms.ProgressBar pcbCoolDown;
         private System.Windows.Forms.TextBox txbPlayerName;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnSendText;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Timer timerCoolDown;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnChangeName;
     }
 }
 

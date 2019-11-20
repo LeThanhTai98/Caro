@@ -16,6 +16,7 @@ namespace caro
     {
         chessBroadManager chessBroad;
         SocketMangaer sck;
+        string OtherPlayerName = null;
         public Form1()
         {
 
@@ -155,12 +156,11 @@ namespace caro
                 {
                     while (true)
                     {
-                        Thread.Sleep(500);
+                       
                         try
                         {
-                            string data = (string)sck.ReceiveData();
-                            chessBroad.SetPlayerName(txbPlayerName.Text , data);
-                            sck.SendData(txbPlayerName.Text);
+                            SocketData data = (SocketData)sck.ReceiveData();
+                            ProcessData(data);
                             break;
                         }
                         catch
@@ -174,26 +174,57 @@ namespace caro
             }
             else
             {
-                MessageBox.Show("client");
-                Thread listenThread = new Thread(() =>
-                {
-                    string data = (string)sck.ReceiveData();
-                    chessBroad.SetPlayerName(data, txbPlayerName.Text);
-                });
-                listenThread.IsBackground = true;
-                listenThread.Start();
 
-                sck.SendData(txbPlayerName.Text);
+                Listen();
+
+                sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME,txbPlayerName.Text,null));
             }
         }
 
         void Listen()
         {
-            string data = (string)sck.ReceiveData();
+            
+                Thread listenThread = new Thread(() =>
+                {
+                    try
+                    {
+                        SocketData data = (SocketData)sck.ReceiveData();
+                        ProcessData(data);
+                    }
+                    catch
+                    {
 
-            MessageBox.Show(data);
+                    }
+                });
+                listenThread.IsBackground = true;
+                listenThread.Start();
+           
         }
 
+
+        private void ProcessData(SocketData data) {
+            switch (data.Command)
+            {
+                case (int)SocketCommand.NOTIFY:
+                    {
+                        MessageBox.Show(data.Message);
+                    }
+                    break;
+                case (int)SocketCommand.PLAYER_NAME:
+                    {
+                        if (data.Message != this.OtherPlayerName)
+                        {
+                            this.OtherPlayerName = data.Message;
+                            chessBroad.SetPlayerName(txbPlayerName.Text, this.OtherPlayerName);
+                            sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            Listen();
+        }
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
 
@@ -217,6 +248,12 @@ namespace caro
         {
             if (MessageBox.Show("Are you sure ? ", "confirm", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK)
                 e.Cancel = true;
+        }
+
+        private void btnChangeName_Click(object sender, EventArgs e)
+        {
+            sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
+            chessBroad.SetPlayerName(txbPlayerName.Text, this.OtherPlayerName);
         }
     }
 }

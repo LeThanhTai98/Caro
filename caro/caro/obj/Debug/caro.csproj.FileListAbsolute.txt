@@ -7,3 +7,12 @@ C:\Users\Thanh Tai\source\repos\caro\caro\obj\Debug\caro.Properties.Resources.re
 C:\Users\Thanh Tai\source\repos\caro\caro\obj\Debug\caro.csproj.GenerateResource.cache
 C:\Users\Thanh Tai\source\repos\caro\caro\obj\Debug\caro.exe
 C:\Users\Thanh Tai\source\repos\caro\caro\obj\Debug\caro.pdb
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\bin\Debug\caro.exe.config
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\bin\Debug\caro.exe
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\bin\Debug\caro.pdb
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.csprojAssemblyReference.cache
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.Form1.resources
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.Properties.Resources.resources
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.csproj.GenerateResource.cache
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.exe
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.pdb
