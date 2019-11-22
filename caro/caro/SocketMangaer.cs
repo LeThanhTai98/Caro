@@ -41,7 +41,6 @@ namespace caro
             }
             catch (Exception)
             {
-
                 throw;
             }
         
@@ -63,7 +62,6 @@ namespace caro
             }
             catch (Exception)
             {
-
                 return false;
             }
             

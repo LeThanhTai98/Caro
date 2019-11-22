@@ -17,9 +17,11 @@ namespace caro
         chessBroadManager chessBroad;
         SocketMangaer sck;
         string OtherPlayerName = null;
+        private bool FirstPlay = false;
+
         public Form1()
         {
-
+            Control.CheckForIllegalCrossThreadCalls = false;
             String playerName = null;
             using (Form form = new Form())
             {
@@ -105,13 +107,17 @@ namespace caro
         }
         private void ChessBroad_EndedGame(object sender, EventArgs e)
         {
-            endGame("Het co ");
+            endGame("Out of chess ");
         }
 
-        private void ChessBroad_PlayerMarked(object sender, EventArgs e)
+        private void ChessBroad_PlayerMarked(object sender, ButtonClickEvent e)
         {
-            timerCoolDown.Start();
+            sck.SendData(new SocketData((int)SocketCommand.SEND_POINT, null, e.ClickPoint));
+            panelChessBroad.Enabled = false;
             pcbCoolDown.Value = 0;
+            timerCoolDown.Start();
+           
+            Listen();
         }
 
         private void panelChessBroad_Paint(object sender, PaintEventArgs e)
@@ -137,13 +143,13 @@ namespace caro
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-                txbIP.Text = sck.GetLocalIPv4(NetworkInterfaceType.Wireless80211);
+            txbIP.Text = sck.GetLocalIPv4(NetworkInterfaceType.Wireless80211);
 
-                if (string.IsNullOrEmpty(txbIP.Text))
-                {
-                    txbIP.Text = sck.GetLocalIPv4(NetworkInterfaceType.Ethernet);
-                }
-            
+            if (string.IsNullOrEmpty(txbIP.Text))
+            {
+                txbIP.Text = sck.GetLocalIPv4(NetworkInterfaceType.Ethernet);
+            }
+
         }
 
         private void btnLan_Click(object sender, EventArgs e)
@@ -152,15 +158,19 @@ namespace caro
             if (!sck.ConnectServer()) {
                 sck.CreateServer();
                 MessageBox.Show("server");
+
+                this.FirstPlay = true;
+
                 Thread listenThread = new Thread(() =>
                 {
                     while (true)
                     {
-                       
+
                         try
                         {
                             SocketData data = (SocketData)sck.ReceiveData();
                             ProcessData(data);
+                            
                             break;
                         }
                         catch
@@ -176,29 +186,29 @@ namespace caro
             {
 
                 Listen();
-
-                sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME,txbPlayerName.Text,null));
+                this.FirstPlay = false;
+                sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
             }
         }
 
         void Listen()
         {
-            
-                Thread listenThread = new Thread(() =>
-                {
-                    try
-                    {
-                        SocketData data = (SocketData)sck.ReceiveData();
-                        ProcessData(data);
-                    }
-                    catch
-                    {
 
-                    }
-                });
-                listenThread.IsBackground = true;
-                listenThread.Start();
-           
+            Thread listenThread = new Thread(() =>
+            {
+                try
+                {
+                    SocketData data = (SocketData)sck.ReceiveData();
+                    ProcessData(data);
+                }
+                catch (Exception ex)
+                {
+                    var a = ex;
+                }
+            });
+            listenThread.IsBackground = true;
+            listenThread.Start();
+
         }
 
 
@@ -210,6 +220,14 @@ namespace caro
                         MessageBox.Show(data.Message);
                     }
                     break;
+                case (int)SocketCommand.SEND_POINT:
+                    {
+                        chessBroad.OtherPlayerAction((Point)data.Point);
+                        panelChessBroad.Enabled = true;
+                        pcbCoolDown.Value = 0;
+                        timerCoolDown.Start();
+                    }
+                    break;
                 case (int)SocketCommand.PLAYER_NAME:
                     {
                         if (data.Message != this.OtherPlayerName)
@@ -219,26 +237,37 @@ namespace caro
                             sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
                         }
                     }
+
+                    break;
+                case (int)SocketCommand.NEW_GAME:
+                    {
+                        this.Invoke(new control(StartGame));
+                    }
                     break;
                 default:
                     break;
             }
             Listen();
         }
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        delegate void control();
+        
 
         private void button1_Click(object sender, EventArgs e)
-        { 
-            
-            
-            chessBroad.DrawChessBroad();
+        {
 
-            timerCoolDown.Start();
+            sck.SendData(new SocketData((int)SocketCommand.NEW_GAME, null, null));
+            StartGame();
         }
 
+        private void StartGame()
+        {
+            chessBroad.DrawChessBroad();
+            chessBroad.ResetCurrentPlayer();
+            if (this.FirstPlay) panelChessBroad.Enabled = true;
+            else { panelChessBroad.Enabled = false; chessBroad.changeCurrentColor(); chessBroad.changeCurrentPlayer(); }
+            pcbCoolDown.Value = 0;
+            timerCoolDown.Start();
+        }
         private void button2_Click(object sender, EventArgs e)
         {
                 Application.Exit();

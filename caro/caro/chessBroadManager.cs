@@ -20,8 +20,8 @@ namespace caro
 
         public PictureBox mark { get; set; }
 
-        private event EventHandler playerMarked;
-        public event EventHandler PlayerMarked
+        private event EventHandler<ButtonClickEvent> playerMarked;
+        public event EventHandler<ButtonClickEvent> PlayerMarked
         {
             add
             {
@@ -279,6 +279,8 @@ namespace caro
             return true;
         }
 
+       
+
         private void Btn_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
@@ -289,7 +291,7 @@ namespace caro
             changeChessColor(btn);
 
             if (playerMarked != null)
-                playerMarked(this, new EventArgs());
+                playerMarked(this, new ButtonClickEvent(getChessPoint(btn)));
             if (isWinGame(btn))
             {
                 WinGame();
@@ -303,6 +305,32 @@ namespace caro
             changeCurrentPlayer();
            
         }
+
+       
+
+        public void OtherPlayerAction(Point Point)
+        {
+            Button btn = Matrix[Point.Y][Point.X];
+
+            if (btn.BackColor != constant.getButtonColor())
+                return;
+            // btn.BackgroundImage 
+            changeChessColor(btn);
+
+          
+            if (isWinGame(btn))
+            {
+                WinGame();
+                return;
+            }
+            if (isEndGame(btn))
+            {
+                EndGame();
+                return;
+            }
+            changeCurrentPlayer();
+
+        }
         public string getCurrentPlayer()
         {
             return listPlayer[currentPlayer].Name;
@@ -314,7 +342,7 @@ namespace caro
 
         }
 
-        private void changeCurrentPlayer()
+        public void changeCurrentPlayer()
         {
             
             if (currentPlayer == listPlayer.Count - 1) currentPlayer = 0;
@@ -332,5 +360,30 @@ namespace caro
             else mark.BackColor = constant.chessTwoColor;
         }
 
+        public void ResetCurrentPlayer()
+        {
+            currentPlayer = 0;
+            setCurrentPlayer();
+            this.listPlayer[0].color = 1;
+            this.listPlayer[1].color = 2;
+        }
+        public void changeCurrentColor()
+        {
+            var temp = this.listPlayer[0].color;
+            this.listPlayer[0].color = this.listPlayer[1].color;
+            this.listPlayer[1].color = temp;
+        }
+    }
+
+    public class ButtonClickEvent : EventArgs
+    {
+        public ButtonClickEvent(Point clickPoint)
+        {
+            ClickPoint = clickPoint;
+        }
+
+        public Point ClickPoint { get; set; }
+
+      
     }
 }

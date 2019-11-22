@@ -35,6 +35,7 @@
             this.btnSendText = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnChangeName = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnLan = new System.Windows.Forms.Button();
@@ -43,7 +44,6 @@
             this.pcbCoolDown = new System.Windows.Forms.ProgressBar();
             this.txbPlayerName = new System.Windows.Forms.TextBox();
             this.timerCoolDown = new System.Windows.Forms.Timer(this.components);
-            this.btnChangeName = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ptcMark)).BeginInit();
@@ -113,7 +113,16 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(254, 284);
             this.panel3.TabIndex = 2;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
+            // btnChangeName
+            // 
+            this.btnChangeName.Location = new System.Drawing.Point(142, -1);
+            this.btnChangeName.Name = "btnChangeName";
+            this.btnChangeName.Size = new System.Drawing.Size(110, 23);
+            this.btnChangeName.TabIndex = 8;
+            this.btnChangeName.Text = "Change Name";
+            this.btnChangeName.UseVisualStyleBackColor = true;
+            this.btnChangeName.Click += new System.EventHandler(this.btnChangeName_Click);
             // 
             // button2
             // 
@@ -179,16 +188,6 @@
             // timerCoolDown
             // 
             this.timerCoolDown.Tick += new System.EventHandler(this.timerCoolDown_Tick);
-            // 
-            // btnChangeName
-            // 
-            this.btnChangeName.Location = new System.Drawing.Point(142, -1);
-            this.btnChangeName.Name = "btnChangeName";
-            this.btnChangeName.Size = new System.Drawing.Size(110, 23);
-            this.btnChangeName.TabIndex = 8;
-            this.btnChangeName.Text = "Change Name";
-            this.btnChangeName.UseVisualStyleBackColor = true;
-            this.btnChangeName.Click += new System.EventHandler(this.btnChangeName_Click);
             // 
             // Form1
             // 
