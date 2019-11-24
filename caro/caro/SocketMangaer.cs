@@ -58,6 +58,7 @@ namespace caro
             try
             {
                 client.Connect(ep);
+                isServer = false;
                 return true;
             }
             catch (Exception)

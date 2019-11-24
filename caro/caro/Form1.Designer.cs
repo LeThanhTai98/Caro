@@ -35,18 +35,22 @@
             this.btnSendText = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnReady = new System.Windows.Forms.Button();
             this.btnChangeName = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnStartGame = new System.Windows.Forms.Button();
             this.btnLan = new System.Windows.Forms.Button();
             this.txbIP = new System.Windows.Forms.TextBox();
             this.ptcMark = new System.Windows.Forms.PictureBox();
             this.pcbCoolDown = new System.Windows.Forms.ProgressBar();
             this.txbPlayerName = new System.Windows.Forms.TextBox();
             this.timerCoolDown = new System.Windows.Forms.Timer(this.components);
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ptcMark)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelChessBroad
@@ -101,9 +105,10 @@
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.btnReady);
             this.panel3.Controls.Add(this.btnChangeName);
             this.panel3.Controls.Add(this.button2);
-            this.panel3.Controls.Add(this.button1);
+            this.panel3.Controls.Add(this.btnStartGame);
             this.panel3.Controls.Add(this.btnLan);
             this.panel3.Controls.Add(this.txbIP);
             this.panel3.Controls.Add(this.ptcMark);
@@ -113,6 +118,17 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(254, 284);
             this.panel3.TabIndex = 2;
+            // 
+            // btnReady
+            // 
+            this.btnReady.Location = new System.Drawing.Point(8, 202);
+            this.btnReady.Name = "btnReady";
+            this.btnReady.Size = new System.Drawing.Size(117, 75);
+            this.btnReady.TabIndex = 9;
+            this.btnReady.Text = "Ready";
+            this.btnReady.UseVisualStyleBackColor = true;
+            this.btnReady.Visible = false;
+            this.btnReady.Click += new System.EventHandler(this.btnReady_Click);
             // 
             // btnChangeName
             // 
@@ -134,15 +150,15 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button1
+            // btnStartGame
             // 
-            this.button1.Location = new System.Drawing.Point(7, 202);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(117, 75);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Start Game";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnStartGame.Location = new System.Drawing.Point(7, 202);
+            this.btnStartGame.Name = "btnStartGame";
+            this.btnStartGame.Size = new System.Drawing.Size(117, 75);
+            this.btnStartGame.TabIndex = 6;
+            this.btnStartGame.Text = "Start Game";
+            this.btnStartGame.UseVisualStyleBackColor = true;
+            this.btnStartGame.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnLan
             // 
@@ -189,11 +205,27 @@
             // 
             this.timerCoolDown.Tick += new System.EventHandler(this.timerCoolDown_Tick);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBar});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 482);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(764, 22);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusBar
+            // 
+            this.statusBar.Name = "statusBar";
+            this.statusBar.Size = new System.Drawing.Size(0, 17);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 495);
+            this.ClientSize = new System.Drawing.Size(764, 504);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelChessBroad);
@@ -207,7 +239,10 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ptcMark)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -225,9 +260,12 @@
         private System.Windows.Forms.Button btnSendText;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Timer timerCoolDown;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnStartGame;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnChangeName;
+        private System.Windows.Forms.Button btnReady;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel statusBar;
     }
 }
 

@@ -30,6 +30,7 @@ namespace caro
         PAUSE_GAME ,
         QUIT,
         NOTIFY,
-        PLAYER_NAME
+        PLAYER_NAME,
+        READY
     }
 }

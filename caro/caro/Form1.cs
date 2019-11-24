@@ -18,7 +18,7 @@ namespace caro
         SocketMangaer sck;
         string OtherPlayerName = null;
         private bool FirstPlay = false;
-
+        bool ready = false;
         public Form1()
         {
             Control.CheckForIllegalCrossThreadCalls = false;
@@ -104,6 +104,8 @@ namespace caro
             timerCoolDown.Stop();
             panelChessBroad.Enabled = false;
             MessageBox.Show(msg);
+            if (!sck.isServer) this.statusBar.Text = "you are not ready";
+            else this.statusBar.Text = "client is not ready";
         }
         private void ChessBroad_EndedGame(object sender, EventArgs e)
         {
@@ -157,7 +159,7 @@ namespace caro
             sck.IP = txbIP.Text;
             if (!sck.ConnectServer()) {
                 sck.CreateServer();
-                MessageBox.Show("server");
+                this.statusBar.Text = "you are server";
 
                 this.FirstPlay = true;
 
@@ -184,7 +186,9 @@ namespace caro
             }
             else
             {
-
+                btnStartGame.Visible = false;
+                btnReady.Visible = true;
+                this.statusBar.Text = "you are client";
                 Listen();
                 this.FirstPlay = false;
                 sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
@@ -244,6 +248,12 @@ namespace caro
                         this.Invoke(new control(StartGame));
                     }
                     break;
+                case (int)SocketCommand.READY:
+                    {
+                        this.ready = !this.ready;
+                        this.statusBar.Text = "client is ready";
+                    }
+                    break;
                 default:
                     break;
             }
@@ -260,13 +270,27 @@ namespace caro
         }
 
         private void StartGame()
-        {
-            chessBroad.DrawChessBroad();
-            chessBroad.ResetCurrentPlayer();
-            if (this.FirstPlay) panelChessBroad.Enabled = true;
-            else { panelChessBroad.Enabled = false; chessBroad.changeCurrentColor(); chessBroad.changeCurrentPlayer(); }
-            pcbCoolDown.Value = 0;
-            timerCoolDown.Start();
+        {   if (ready)
+            {
+                chessBroad.DrawChessBroad();
+                chessBroad.ResetCurrentPlayer();
+                if (this.FirstPlay) panelChessBroad.Enabled = true;
+                else { panelChessBroad.Enabled = false; chessBroad.changeCurrentColor(); chessBroad.changeCurrentPlayer(); }
+                pcbCoolDown.Value = 0;
+                timerCoolDown.Start();
+                this.ready = false;
+            }
+            else
+            {
+                if (sck.isServer)
+                {
+                    statusBar.Text = "client is not ready";
+                }
+                else
+                {
+                    statusBar.Text = "Server ask for starting game";
+                }
+            }
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -283,6 +307,14 @@ namespace caro
         {
             sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
             chessBroad.SetPlayerName(txbPlayerName.Text, this.OtherPlayerName);
+        }
+
+        private void btnReady_Click(object sender, EventArgs e)
+        {
+            sck.SendData(new SocketData((int)SocketCommand.READY, null, null));
+            ready = !ready;
+            if (ready) statusBar.Text = "you are ready";
+            else statusBar.Text = "you are not ready";
         }
     }
 }
