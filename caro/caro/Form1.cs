@@ -188,6 +188,8 @@ namespace caro
             {
                 btnStartGame.Visible = false;
                 btnReady.Visible = true;
+                btnServerFirst.Enabled = false;
+                btnClientFirst.Enabled = false;
                 this.statusBar.Text = "you are client";
                 Listen();
                 this.FirstPlay = false;
@@ -254,6 +256,12 @@ namespace caro
                         this.statusBar.Text = "client is ready";
                     }
                     break;
+                case (int)SocketCommand.FIRSTPLAY:
+                    {
+                        if (data.Message == "2") this.FirstPlay = true;
+                        else if (data.Message == "1") this.FirstPlay = false;
+                    }
+                    break;
                 default:
                     break;
             }
@@ -264,9 +272,11 @@ namespace caro
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            sck.SendData(new SocketData((int)SocketCommand.NEW_GAME, null, null));
-            StartGame();
+            if (sck != null)
+            {
+                sck.SendData(new SocketData((int)SocketCommand.NEW_GAME, null, null));
+                StartGame();
+            }
         }
 
         private void StartGame()
@@ -305,16 +315,40 @@ namespace caro
 
         private void btnChangeName_Click(object sender, EventArgs e)
         {
-            sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
+            if (sck != null)
+            {
+                sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
+            }
             chessBroad.SetPlayerName(txbPlayerName.Text, this.OtherPlayerName);
         }
 
         private void btnReady_Click(object sender, EventArgs e)
         {
-            sck.SendData(new SocketData((int)SocketCommand.READY, null, null));
-            ready = !ready;
-            if (ready) statusBar.Text = "you are ready";
-            else statusBar.Text = "you are not ready";
+            if (sck != null)
+            {
+                sck.SendData(new SocketData((int)SocketCommand.READY, null, null));
+                ready = !ready;
+                if (ready) statusBar.Text = "you are ready";
+                else statusBar.Text = "you are not ready";
+            }
+        }
+
+        private void btnClientFirst_CheckedChanged(object sender, EventArgs e)
+        {
+            if (btnClientFirst.Checked)
+            {
+                sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "2", null));
+                this.FirstPlay = false;
+            }
+        }
+
+        private void btnServerFirst_CheckedChanged(object sender, EventArgs e)
+        {
+            if (btnServerFirst.Checked)
+            {
+                sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "1", null));
+                this.FirstPlay = true;
+            }
         }
     }
 }

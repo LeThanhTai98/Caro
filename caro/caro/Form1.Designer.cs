@@ -35,6 +35,8 @@
             this.btnSendText = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnClientFirst = new System.Windows.Forms.RadioButton();
+            this.btnServerFirst = new System.Windows.Forms.RadioButton();
             this.btnReady = new System.Windows.Forms.Button();
             this.btnChangeName = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -105,6 +107,8 @@
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.btnClientFirst);
+            this.panel3.Controls.Add(this.btnServerFirst);
             this.panel3.Controls.Add(this.btnReady);
             this.panel3.Controls.Add(this.btnChangeName);
             this.panel3.Controls.Add(this.button2);
@@ -118,6 +122,30 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(254, 284);
             this.panel3.TabIndex = 2;
+            // 
+            // btnClientFirst
+            // 
+            this.btnClientFirst.AutoSize = true;
+            this.btnClientFirst.Location = new System.Drawing.Point(137, 95);
+            this.btnClientFirst.Name = "btnClientFirst";
+            this.btnClientFirst.Size = new System.Drawing.Size(84, 17);
+            this.btnClientFirst.TabIndex = 11;
+            this.btnClientFirst.Text = "client go first";
+            this.btnClientFirst.UseVisualStyleBackColor = true;
+            this.btnClientFirst.CheckedChanged += new System.EventHandler(this.btnClientFirst_CheckedChanged);
+            // 
+            // btnServerFirst
+            // 
+            this.btnServerFirst.AutoSize = true;
+            this.btnServerFirst.Checked = true;
+            this.btnServerFirst.Location = new System.Drawing.Point(7, 95);
+            this.btnServerFirst.Name = "btnServerFirst";
+            this.btnServerFirst.Size = new System.Drawing.Size(88, 17);
+            this.btnServerFirst.TabIndex = 10;
+            this.btnServerFirst.TabStop = true;
+            this.btnServerFirst.Text = "server go first";
+            this.btnServerFirst.UseVisualStyleBackColor = true;
+            this.btnServerFirst.CheckedChanged += new System.EventHandler(this.btnServerFirst_CheckedChanged);
             // 
             // btnReady
             // 
@@ -181,9 +209,9 @@
             // ptcMark
             // 
             this.ptcMark.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ptcMark.Location = new System.Drawing.Point(137, 91);
+            this.ptcMark.Location = new System.Drawing.Point(137, 118);
             this.ptcMark.Name = "ptcMark";
-            this.ptcMark.Size = new System.Drawing.Size(124, 105);
+            this.ptcMark.Size = new System.Drawing.Size(124, 78);
             this.ptcMark.TabIndex = 2;
             this.ptcMark.TabStop = false;
             // 
@@ -266,6 +294,8 @@
         private System.Windows.Forms.Button btnReady;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusBar;
+        private System.Windows.Forms.RadioButton btnClientFirst;
+        private System.Windows.Forms.RadioButton btnServerFirst;
     }
 }
 

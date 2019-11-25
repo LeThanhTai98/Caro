@@ -31,6 +31,7 @@ namespace caro
         QUIT,
         NOTIFY,
         PLAYER_NAME,
-        READY
+        READY,
+        FIRSTPLAY
     }
 }
