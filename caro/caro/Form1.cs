@@ -19,6 +19,7 @@ namespace caro
         string OtherPlayerName = null;
         private bool FirstPlay = false;
         bool ready = false;
+        bool otherPlayer = false;
         public Form1()
         {
             Control.CheckForIllegalCrossThreadCalls = false;
@@ -89,7 +90,7 @@ namespace caro
             chessBroad.DrawChessBroad();
 
             panelChessBroad.Enabled = false;
-
+            btnReady.Visible = false;
 
         }
 
@@ -118,7 +119,7 @@ namespace caro
             panelChessBroad.Enabled = false;
             pcbCoolDown.Value = 0;
             timerCoolDown.Start();
-           
+
             Listen();
         }
 
@@ -151,50 +152,64 @@ namespace caro
             {
                 txbIP.Text = sck.GetLocalIPv4(NetworkInterfaceType.Ethernet);
             }
-
+            sck = null;
         }
 
         private void btnLan_Click(object sender, EventArgs e)
         {
+            sck = new SocketMangaer();
             sck.IP = txbIP.Text;
-            if (!sck.ConnectServer()) {
-                sck.CreateServer();
-                this.statusBar.Text = "you are server";
-
-                this.FirstPlay = true;
-
-                Thread listenThread = new Thread(() =>
-                {
-                    while (true)
-                    {
-
-                        try
-                        {
-                            SocketData data = (SocketData)sck.ReceiveData();
-                            ProcessData(data);
-                            
-                            break;
-                        }
-                        catch
-                        {
-
-                        }
-                    }
-                });
-                listenThread.IsBackground = true;
-                listenThread.Start();
-            }
-            else
+            this.statusBar.Text = "processing....";
+            Thread thread = new Thread(() =>
             {
-                btnStartGame.Visible = false;
-                btnReady.Visible = true;
-                btnServerFirst.Enabled = false;
-                btnClientFirst.Enabled = false;
-                this.statusBar.Text = "you are client";
-                Listen();
-                this.FirstPlay = false;
-                sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
-            }
+                if (!sck.ConnectServer())
+                {
+                    sck.CreateServer();
+                    this.statusBar.Text = "you are server";
+
+                    this.FirstPlay = true;
+
+                    Thread listenThread = new Thread(() =>
+                    {
+                        while (true)
+                        {
+
+                            try
+                            {
+                                SocketData data = (SocketData)sck.ReceiveData();
+                                ProcessData(data);
+
+                                break;
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+                    });
+                    listenThread.IsBackground = true;
+                    listenThread.Start();
+                }
+                else
+                {
+                    this.Invoke(new control(clientUI));
+                    Listen();
+
+                    sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
+        }
+
+        private void clientUI()
+        {
+            btnReady.Visible = true;
+           
+            btnServerFirst.Enabled = false;
+            btnClientFirst.Enabled = false;
+            this.statusBar.Text = "you are client";
+            this.FirstPlay = false;
         }
 
         void Listen()
@@ -218,7 +233,8 @@ namespace caro
         }
 
 
-        private void ProcessData(SocketData data) {
+        private void ProcessData(SocketData data)
+        {
             switch (data.Command)
             {
                 case (int)SocketCommand.NOTIFY:
@@ -236,6 +252,7 @@ namespace caro
                     break;
                 case (int)SocketCommand.PLAYER_NAME:
                     {
+                        this.otherPlayer = true;
                         if (data.Message != this.OtherPlayerName)
                         {
                             this.OtherPlayerName = data.Message;
@@ -253,6 +270,7 @@ namespace caro
                 case (int)SocketCommand.READY:
                     {
                         this.ready = !this.ready;
+                     
                         this.statusBar.Text = "client is ready";
                     }
                     break;
@@ -262,13 +280,52 @@ namespace caro
                         else if (data.Message == "1") this.FirstPlay = false;
                     }
                     break;
+                case (int)SocketCommand.QUIT:
+                    {
+                        this.otherPlayer = false;
+                       
+                    }
+                    break;
+                case (int)SocketCommand.PAUSE_GAME:
+                    {
+                        this.Invoke(new control(Pause));
+                    }
+                    break;
+                case (int)SocketCommand.UNPAUSE_GAME:
+                    {
+                        this.Invoke(new control(UnPause));
+
+                    }
+                    break;
+
                 default:
+
                     break;
             }
             Listen();
         }
+        private void PauseSender()
+        {
+            this.panelChessBroad.Enabled = false;
+            this.timerCoolDown.Stop();
+            this.btnUnPause.Visible = true;
+        }
+        private void Pause()
+        {
+            PauseSender();
+            this.btnUnPause.Enabled = false;
+            this.timerEnablePause.Start();
+        }
+
+        private void UnPause()
+        {
+            if (this.OtherPlayerName != chessBroad.getCurrentPlayer()) this.panelChessBroad.Enabled = true;
+            this.timerCoolDown.Start();
+            this.btnUnPause.Visible = false;
+        }
+
         delegate void control();
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -280,7 +337,8 @@ namespace caro
         }
 
         private void StartGame()
-        {   if (ready)
+        {
+            if (ready)
             {
                 chessBroad.DrawChessBroad();
                 chessBroad.ResetCurrentPlayer();
@@ -304,7 +362,7 @@ namespace caro
         }
         private void button2_Click(object sender, EventArgs e)
         {
-                Application.Exit();
+            Application.Exit();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -335,7 +393,7 @@ namespace caro
 
         private void btnClientFirst_CheckedChanged(object sender, EventArgs e)
         {
-            if (btnClientFirst.Checked)
+            if (btnClientFirst.Checked && sck != null)
             {
                 sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "2", null));
                 this.FirstPlay = false;
@@ -344,10 +402,42 @@ namespace caro
 
         private void btnServerFirst_CheckedChanged(object sender, EventArgs e)
         {
-            if (btnServerFirst.Checked)
+            if (btnServerFirst.Checked && sck != null)
             {
                 sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "1", null));
                 this.FirstPlay = true;
+            }
+        }
+        
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            if (sck != null)
+            {
+                sck.SendData(new SocketData((int)SocketCommand.PAUSE_GAME, null, null));
+                PauseSender();
+            }
+        }
+
+       
+
+        private void btnUnPause_Click(object sender, EventArgs e)
+        {
+            if (sck != null)
+            {
+                sck.SendData(new SocketData((int)SocketCommand.UNPAUSE_GAME, null, null));
+                UnPause();
+            }
+        }
+
+        int countPauseTime = 0;
+        private void timerEnablePause_Tick(object sender, EventArgs e)
+        {
+            countPauseTime++;
+            if(countPauseTime >= constant.pauseTime)
+            {
+                this.btnUnPause.Enabled = true;
+                countPauseTime = 0;
+                this.timerEnablePause.Stop();
             }
         }
     }

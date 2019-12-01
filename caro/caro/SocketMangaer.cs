@@ -74,7 +74,14 @@ namespace caro
         public void SendData(object data )
         {
             byte[] dataByteArray = SerializeData(data);
-            client.Send(dataByteArray);
+            try
+            {
+                client.Send(dataByteArray);
+            }
+            catch
+            {
+
+            }
         }
 
         public object ReceiveData()

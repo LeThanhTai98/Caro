@@ -28,6 +28,7 @@ namespace caro
         SEND_POINT ,
         NEW_GAME ,
         PAUSE_GAME ,
+        UNPAUSE_GAME,
         QUIT,
         NOTIFY,
         PLAYER_NAME,

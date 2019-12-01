@@ -23,7 +23,7 @@ namespace caro
         public static int coolDownTime = 10000;
         public static int coolDownInterver = 100;
 
-
+        public static int pauseTime = 5;
         public static Color getButtonColor()
         {
             return btn.BackColor;
