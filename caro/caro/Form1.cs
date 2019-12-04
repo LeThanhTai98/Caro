@@ -91,7 +91,7 @@ namespace caro
 
             panelChessBroad.Enabled = false;
             btnReady.Visible = false;
-
+            btnPause.Enabled = false;
         }
 
         private void ChessBroad_WonGame(object sender, EventArgs e)
@@ -104,6 +104,7 @@ namespace caro
         {
             timerCoolDown.Stop();
             panelChessBroad.Enabled = false;
+            btnPause.Enabled = false;
             MessageBox.Show(msg);
             if (!sck.isServer) this.statusBar.Text = "you are not ready";
             else this.statusBar.Text = "client is not ready";
@@ -157,6 +158,12 @@ namespace caro
 
         private void btnLan_Click(object sender, EventArgs e)
         {
+            Connect();
+        }
+
+        private void Connect()
+        {
+            if (sck != null) sck.Close();
             sck = new SocketMangaer();
             sck.IP = txbIP.Text;
             this.statusBar.Text = "processing....";
@@ -165,8 +172,8 @@ namespace caro
                 if (!sck.ConnectServer())
                 {
                     sck.CreateServer();
-                    this.statusBar.Text = "you are server";
-
+                   if(!otherPlayQuit)  this.statusBar.Text = "you are server";
+                   else this.statusBar.Text = "other player is quit , now you are server";
                     this.FirstPlay = true;
 
                     Thread listenThread = new Thread(() =>
@@ -205,7 +212,7 @@ namespace caro
         private void clientUI()
         {
             btnReady.Visible = true;
-           
+
             btnServerFirst.Enabled = false;
             btnClientFirst.Enabled = false;
             this.statusBar.Text = "you are client";
@@ -270,7 +277,7 @@ namespace caro
                 case (int)SocketCommand.READY:
                     {
                         this.ready = !this.ready;
-                     
+
                         this.statusBar.Text = "client is ready";
                     }
                     break;
@@ -283,7 +290,7 @@ namespace caro
                 case (int)SocketCommand.QUIT:
                     {
                         this.otherPlayer = false;
-                       
+                        this.Invoke(new control(ResetChessBroad));
                     }
                     break;
                 case (int)SocketCommand.PAUSE_GAME:
@@ -304,6 +311,23 @@ namespace caro
             }
             Listen();
         }
+        bool otherPlayQuit = false;
+        private void ResetChessBroad()
+        {
+            pcbCoolDown.Value = 0;
+
+            timerCoolDown.Interval = constant.coolDownInterver;
+            chessBroad.DrawChessBroad();
+
+            panelChessBroad.Enabled = false;
+            btnUnPause.Visible = false;
+            btnPause.Enabled = false;
+            otherPlayQuit = true;
+            Connect();
+           
+
+        }
+
         private void PauseSender()
         {
             this.panelChessBroad.Enabled = false;
@@ -345,6 +369,7 @@ namespace caro
                 if (this.FirstPlay) panelChessBroad.Enabled = true;
                 else { panelChessBroad.Enabled = false; chessBroad.changeCurrentColor(); chessBroad.changeCurrentPlayer(); }
                 pcbCoolDown.Value = 0;
+                btnPause.Enabled = true;
                 timerCoolDown.Start();
                 this.ready = false;
             }
@@ -369,6 +394,11 @@ namespace caro
         {
             if (MessageBox.Show("Are you sure ? ", "confirm", MessageBoxButtons.OKCancel) != System.Windows.Forms.DialogResult.OK)
                 e.Cancel = true;
+            else
+                try { sck.SendData(new SocketData((int)SocketCommand.QUIT, null, null)); }
+                catch { };
+            
+
         }
 
         private void btnChangeName_Click(object sender, EventArgs e)
@@ -408,7 +438,7 @@ namespace caro
                 this.FirstPlay = true;
             }
         }
-        
+
         private void btnPause_Click(object sender, EventArgs e)
         {
             if (sck != null)
@@ -418,7 +448,7 @@ namespace caro
             }
         }
 
-       
+
 
         private void btnUnPause_Click(object sender, EventArgs e)
         {
@@ -433,7 +463,7 @@ namespace caro
         private void timerEnablePause_Tick(object sender, EventArgs e)
         {
             countPauseTime++;
-            if(countPauseTime >= constant.pauseTime)
+            if (countPauseTime >= constant.pauseTime)
             {
                 this.btnUnPause.Enabled = true;
                 countPauseTime = 0;

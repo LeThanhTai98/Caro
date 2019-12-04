@@ -125,6 +125,12 @@ namespace caro
             return output;
         }
 
+        internal void Close()
+        {
+            if (this.server != null) this.server.Close();
+            if (this.client != null) this.client.Close();
+        }
+
         #endregion
     }
 }
