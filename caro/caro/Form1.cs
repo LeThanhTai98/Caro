@@ -19,7 +19,7 @@ namespace caro
         string OtherPlayerName = null;
         private bool FirstPlay = false;
         bool ready = false;
-        bool otherPlayer = false;
+
         public Form1()
         {
             Control.CheckForIllegalCrossThreadCalls = false;
@@ -159,7 +159,7 @@ namespace caro
         private void btnLan_Click(object sender, EventArgs e)
         {
             Connect();
-            
+
         }
 
         private void Connect()
@@ -171,18 +171,20 @@ namespace caro
             this.statusBar.Text = "processing....";
             Thread thread = new Thread(() =>
             {
+                btnLan.Enabled = false;
+                btnDiconnect.Enabled = true;
                 if (!sck.ConnectServer())
                 {
                     bool kq = true;
                     sck.CreateServer(out kq);
+
                     if (kq == true)
                     {
                         if (!otherPlayQuit) this.statusBar.Text = "you are server";
-                        else this.statusBar.Text = "other player is quit , now you are server";
+                        else this.statusBar.Text = "other player is quit ";
                         this.FirstPlay = true;
+                        otherPlayQuit = false;
 
-                        btnLan.Enabled = false;
-                        btnDiconnect.Enabled = true;
 
                         Thread listenThread = new Thread(() =>
                         {
@@ -209,7 +211,7 @@ namespace caro
                     {
                         this.statusBar.Text = "cant connect pls check your port";
                     }
-                    
+
 
                 }
                 else
@@ -275,12 +277,14 @@ namespace caro
                     break;
                 case (int)SocketCommand.PLAYER_NAME:
                     {
-                        this.otherPlayer = true;
+
                         if (data.Message != this.OtherPlayerName)
                         {
+                            if (sck.isServer && OtherPlayerName == null) this.statusBar.Text = "client is connected";
                             this.OtherPlayerName = data.Message;
                             chessBroad.SetPlayerName(txbPlayerName.Text, this.OtherPlayerName);
                             sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
+
                         }
                     }
 
@@ -305,7 +309,8 @@ namespace caro
                     break;
                 case (int)SocketCommand.QUIT:
                     {
-                        this.otherPlayer = false;
+
+                        this.otherPlayQuit = true;
                         this.Invoke(new control(ResetChessBroad));
 
                     }
@@ -332,32 +337,52 @@ namespace caro
         private void ResetChessBroad()
         {
             pcbCoolDown.Value = 0;
-
+            OtherPlayerName = null;
             timerCoolDown.Interval = constant.coolDownInterver;
+            timerCoolDown.Stop();
             chessBroad.DrawChessBroad();
 
             panelChessBroad.Enabled = false;
             btnUnPause.Visible = false;
             btnPause.Enabled = false;
-            otherPlayQuit = true;
-            Connect();
 
+            btnReady.Visible = false;
+
+
+
+
+            if (sck.isServer)
+            {
+                Connect();
+            }
+            else
+            {
+                this.statusBar.Text = "server is closed";
+                btnLan.Enabled = true;
+                btnDiconnect.Enabled = false;
+                sck.Close();
+            }
 
         }
         private void ResetChessBroadAndDisconnect()
         {
             pcbCoolDown.Value = 0;
-
+            OtherPlayerName = null;
             timerCoolDown.Interval = constant.coolDownInterver;
             chessBroad.DrawChessBroad();
-
+            timerCoolDown.Stop();
             panelChessBroad.Enabled = false;
             btnUnPause.Visible = false;
             btnPause.Enabled = false;
-            otherPlayQuit = true;
+
+            btnReady.Visible = false;
 
             sck.Close();
 
+            otherPlayQuit = false;
+            btnLan.Enabled = true;
+            btnDiconnect.Enabled = false;
+            this.statusBar.Text = "you are disconnected";
         }
 
         private void PauseSender()
@@ -508,13 +533,12 @@ namespace caro
             sck.SendData(new SocketData((int)SocketCommand.QUIT, null, null));
             Thread thread = new Thread(() =>
             {
-              this.Invoke(new control(ResetChessBroadAndDisconnect));
+                this.Invoke(new control(ResetChessBroadAndDisconnect));
             });
+
             thread.IsBackground = true;
             thread.Start();
-            btnLan.Enabled = true;
-            btnDiconnect.Enabled = false;
-            this.statusBar.Text = "you are disconnected";
+
         }
     }
 }

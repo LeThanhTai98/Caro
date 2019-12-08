@@ -148,6 +148,11 @@ namespace caro
             if (this.client != null) this.client.Close();
         }
 
+        internal void CloseClient()
+        {
+            if (this.client != null) this.client.Close();
+        }
+
         #endregion
     }
 }
