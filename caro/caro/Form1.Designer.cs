@@ -31,10 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.panelChessBroad = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtChat = new System.Windows.Forms.TextBox();
             this.btnSendText = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.ChatBoard = new System.Windows.Forms.RichTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnDiconnect = new System.Windows.Forms.Button();
             this.btnUnPause = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -56,7 +57,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerEnablePause = new System.Windows.Forms.Timer(this.components);
-            this.btnDiconnect = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort)).BeginInit();
@@ -76,22 +76,22 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.textBox1);
+            this.panel2.Controls.Add(this.txtChat);
             this.panel2.Controls.Add(this.btnSendText);
-            this.panel2.Controls.Add(this.richTextBox1);
+            this.panel2.Controls.Add(this.ChatBoard);
             this.panel2.Location = new System.Drawing.Point(498, 20);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(254, 173);
             this.panel2.TabIndex = 1;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panelChessBroad_Paint);
             // 
-            // textBox1
+            // txtChat
             // 
-            this.textBox1.Location = new System.Drawing.Point(-2, 122);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(185, 49);
-            this.textBox1.TabIndex = 0;
+            this.txtChat.Location = new System.Drawing.Point(-2, 122);
+            this.txtChat.Multiline = true;
+            this.txtChat.Name = "txtChat";
+            this.txtChat.Size = new System.Drawing.Size(185, 49);
+            this.txtChat.TabIndex = 0;
             // 
             // btnSendText
             // 
@@ -103,14 +103,14 @@
             this.btnSendText.UseVisualStyleBackColor = true;
             this.btnSendText.Click += new System.EventHandler(this.btnSendText_Click);
             // 
-            // richTextBox1
+            // ChatBoard
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(-2, -2);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(254, 173);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
+            this.ChatBoard.Location = new System.Drawing.Point(-2, -2);
+            this.ChatBoard.Name = "ChatBoard";
+            this.ChatBoard.ReadOnly = true;
+            this.ChatBoard.Size = new System.Drawing.Size(254, 173);
+            this.ChatBoard.TabIndex = 2;
+            this.ChatBoard.Text = "";
             // 
             // panel3
             // 
@@ -138,6 +138,17 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(254, 284);
             this.panel3.TabIndex = 2;
+            // 
+            // btnDiconnect
+            // 
+            this.btnDiconnect.Enabled = false;
+            this.btnDiconnect.Location = new System.Drawing.Point(136, 173);
+            this.btnDiconnect.Name = "btnDiconnect";
+            this.btnDiconnect.Size = new System.Drawing.Size(118, 23);
+            this.btnDiconnect.TabIndex = 18;
+            this.btnDiconnect.Text = "disconnect";
+            this.btnDiconnect.UseVisualStyleBackColor = true;
+            this.btnDiconnect.Click += new System.EventHandler(this.btnDiconnect_Click);
             // 
             // btnUnPause
             // 
@@ -327,17 +338,6 @@
             // 
             this.timerEnablePause.Tick += new System.EventHandler(this.timerEnablePause_Tick);
             // 
-            // btnDiconnect
-            // 
-            this.btnDiconnect.Enabled = false;
-            this.btnDiconnect.Location = new System.Drawing.Point(136, 173);
-            this.btnDiconnect.Name = "btnDiconnect";
-            this.btnDiconnect.Size = new System.Drawing.Size(118, 23);
-            this.btnDiconnect.TabIndex = 18;
-            this.btnDiconnect.Text = "disconnect";
-            this.btnDiconnect.UseVisualStyleBackColor = true;
-            this.btnDiconnect.Click += new System.EventHandler(this.btnDiconnect_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -374,9 +374,9 @@
         private System.Windows.Forms.PictureBox ptcMark;
         private System.Windows.Forms.ProgressBar pcbCoolDown;
         private System.Windows.Forms.TextBox txbPlayerName;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtChat;
         private System.Windows.Forms.Button btnSendText;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox ChatBoard;
         private System.Windows.Forms.Timer timerCoolDown;
         private System.Windows.Forms.Button btnStartGame;
         private System.Windows.Forms.Button button2;

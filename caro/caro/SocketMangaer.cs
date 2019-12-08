@@ -20,7 +20,7 @@ namespace caro
         public bool isServer = true;
 
         Socket server;
-        Socket client;
+        Socket client = null;
         #region server
         public void CreateServer(out bool kq )
         {
@@ -61,6 +61,11 @@ namespace caro
                 throw;
             }
         
+        }
+        public bool HasClient()
+        {
+            return client.Connected;
+
         }
         #endregion
 

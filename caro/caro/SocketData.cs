@@ -33,6 +33,7 @@ namespace caro
         NOTIFY,
         PLAYER_NAME,
         READY,
-        FIRSTPLAY
+        FIRSTPLAY,
+        CHAT
     }
 }

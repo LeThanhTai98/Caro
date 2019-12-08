@@ -16,6 +16,7 @@ namespace caro
     {
         chessBroadManager chessBroad;
         SocketMangaer sck;
+        string playerName = null;
         string OtherPlayerName = null;
         private bool FirstPlay = false;
         bool ready = false;
@@ -23,7 +24,7 @@ namespace caro
         public Form1()
         {
             Control.CheckForIllegalCrossThreadCalls = false;
-            String playerName = null;
+          
             using (Form form = new Form())
             {
                 form.StartPosition = FormStartPosition.CenterScreen;
@@ -131,7 +132,13 @@ namespace caro
 
         private void btnSendText_Click(object sender, EventArgs e)
         {
+           if (sck != null && sck.HasClient())
+            {
+                sck.SendData(new SocketData((int)SocketCommand.CHAT, this.txtChat.Text, null));
+                this.ChatBoard.Text += "\n" + this.playerName + " : " + this.txtChat.Text;
+                this.txtChat.Clear();
 
+            }
         }
 
         private void timerCoolDown_Tick(object sender, EventArgs e)
@@ -326,13 +333,23 @@ namespace caro
 
                     }
                     break;
-
+                case (int)SocketCommand.CHAT:
+                    {
+                        this.Invoke(new chat(UpdateChat), new object[] { data.Message });
+                    }
+                    break;
                 default:
 
                     break;
             }
             Listen();
         }
+
+        private void UpdateChat(string s)
+        {
+            this.ChatBoard.Text += "\n" + this.OtherPlayerName + " : " + s;
+        }
+
         bool otherPlayQuit = false;
         private void ResetChessBroad()
         {
@@ -405,6 +422,8 @@ namespace caro
             this.btnUnPause.Visible = false;
         }
 
+
+        delegate void chat(string s);
         delegate void control();
 
 
@@ -465,6 +484,7 @@ namespace caro
                 sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
             }
             chessBroad.SetPlayerName(txbPlayerName.Text, this.OtherPlayerName);
+            this.playerName = txbPlayerName.Text;
         }
 
         private void btnReady_Click(object sender, EventArgs e)
