@@ -168,7 +168,7 @@ namespace caro
                 else break;
             }
 
-            return countLeft + countRight == 3;
+            return countLeft + countRight == constant.numberChessToWin;
         }
         private bool isEndGameVertical(Button btn)
         {
@@ -196,7 +196,7 @@ namespace caro
                 else break;
             }
 
-            return countTop + countBottom == 3;
+            return countTop + countBottom == constant.numberChessToWin;
         }
 
         internal void SetPlayerName(string text, string data)
@@ -235,7 +235,7 @@ namespace caro
                 else break;
             }
 
-            return countTop + countBottom == 3;
+            return countTop + countBottom == constant.numberChessToWin;
         }
         private bool isEndGamesub(Button btn)
         {
@@ -268,7 +268,7 @@ namespace caro
                 else break;
             }
 
-            return countTop + countBottom == 3;
+            return countTop + countBottom == constant.numberChessToWin;
         }
 
         private bool isEndGameOutOffChess(Button btn)

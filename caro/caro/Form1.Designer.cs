@@ -35,6 +35,12 @@
             this.btnSendText = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnUnPause = new System.Windows.Forms.Button();
+            this.btnPause = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtPort = new System.Windows.Forms.NumericUpDown();
             this.btnClientFirst = new System.Windows.Forms.RadioButton();
             this.btnServerFirst = new System.Windows.Forms.RadioButton();
             this.btnReady = new System.Windows.Forms.Button();
@@ -42,25 +48,20 @@
             this.button2 = new System.Windows.Forms.Button();
             this.btnStartGame = new System.Windows.Forms.Button();
             this.btnLan = new System.Windows.Forms.Button();
+            this.txbIP = new System.Windows.Forms.TextBox();
             this.ptcMark = new System.Windows.Forms.PictureBox();
             this.pcbCoolDown = new System.Windows.Forms.ProgressBar();
             this.txbPlayerName = new System.Windows.Forms.TextBox();
             this.timerCoolDown = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
-            this.txbIP = new System.Windows.Forms.TextBox();
-            this.txtPort = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnPause = new System.Windows.Forms.Button();
-            this.btnUnPause = new System.Windows.Forms.Button();
             this.timerEnablePause = new System.Windows.Forms.Timer(this.components);
+            this.btnDiconnect = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptcMark)).BeginInit();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPort)).BeginInit();
             this.SuspendLayout();
             // 
             // panelChessBroad
@@ -115,6 +116,7 @@
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.btnDiconnect);
             this.panel3.Controls.Add(this.btnUnPause);
             this.panel3.Controls.Add(this.btnPause);
             this.panel3.Controls.Add(this.label3);
@@ -136,6 +138,66 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(254, 284);
             this.panel3.TabIndex = 2;
+            // 
+            // btnUnPause
+            // 
+            this.btnUnPause.Location = new System.Drawing.Point(8, 28);
+            this.btnUnPause.Name = "btnUnPause";
+            this.btnUnPause.Size = new System.Drawing.Size(244, 23);
+            this.btnUnPause.TabIndex = 17;
+            this.btnUnPause.Text = "unpause";
+            this.btnUnPause.UseVisualStyleBackColor = true;
+            this.btnUnPause.Visible = false;
+            this.btnUnPause.Click += new System.EventHandler(this.btnUnPause_Click);
+            // 
+            // btnPause
+            // 
+            this.btnPause.Location = new System.Drawing.Point(7, 28);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(246, 23);
+            this.btnPause.TabIndex = 16;
+            this.btnPause.Text = "pause game";
+            this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(5, 139);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(26, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Port";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(5, 111);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "IP";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 84);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "timer";
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(40, 137);
+            this.txtPort.Maximum = new decimal(new int[] {
+            298954296,
+            2,
+            0,
+            0});
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(87, 20);
+            this.txtPort.TabIndex = 12;
             // 
             // btnClientFirst
             // 
@@ -211,6 +273,14 @@
             this.btnLan.UseVisualStyleBackColor = true;
             this.btnLan.Click += new System.EventHandler(this.btnLan_Click);
             // 
+            // txbIP
+            // 
+            this.txbIP.Location = new System.Drawing.Point(40, 108);
+            this.txbIP.Name = "txbIP";
+            this.txbIP.Size = new System.Drawing.Size(84, 20);
+            this.txbIP.TabIndex = 3;
+            this.txbIP.Text = "127.0.0.1";
+            // 
             // ptcMark
             // 
             this.ptcMark.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -253,72 +323,20 @@
             this.statusBar.Name = "statusBar";
             this.statusBar.Size = new System.Drawing.Size(0, 17);
             // 
-            // txbIP
-            // 
-            this.txbIP.Location = new System.Drawing.Point(40, 108);
-            this.txbIP.Name = "txbIP";
-            this.txbIP.Size = new System.Drawing.Size(84, 20);
-            this.txbIP.TabIndex = 3;
-            this.txbIP.Text = "127.0.0.1";
-            // 
-            // txtPort
-            // 
-            this.txtPort.Location = new System.Drawing.Point(40, 137);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(87, 20);
-            this.txtPort.TabIndex = 12;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 84);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
-            this.label1.TabIndex = 13;
-            this.label1.Text = "timer";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(5, 111);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(17, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "IP";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 139);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 13);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Port";
-            // 
-            // btnPause
-            // 
-            this.btnPause.Location = new System.Drawing.Point(137, 173);
-            this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(117, 23);
-            this.btnPause.TabIndex = 16;
-            this.btnPause.Text = "pause game";
-            this.btnPause.UseVisualStyleBackColor = true;
-            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
-            // 
-            // btnUnPause
-            // 
-            this.btnUnPause.Location = new System.Drawing.Point(137, 173);
-            this.btnUnPause.Name = "btnUnPause";
-            this.btnUnPause.Size = new System.Drawing.Size(117, 23);
-            this.btnUnPause.TabIndex = 17;
-            this.btnUnPause.Text = "unpause";
-            this.btnUnPause.UseVisualStyleBackColor = true;
-            this.btnUnPause.Visible = false;
-            this.btnUnPause.Click += new System.EventHandler(this.btnUnPause_Click);
-            // 
             // timerEnablePause
             // 
             this.timerEnablePause.Tick += new System.EventHandler(this.timerEnablePause_Tick);
+            // 
+            // btnDiconnect
+            // 
+            this.btnDiconnect.Enabled = false;
+            this.btnDiconnect.Location = new System.Drawing.Point(136, 173);
+            this.btnDiconnect.Name = "btnDiconnect";
+            this.btnDiconnect.Size = new System.Drawing.Size(118, 23);
+            this.btnDiconnect.TabIndex = 18;
+            this.btnDiconnect.Text = "disconnect";
+            this.btnDiconnect.UseVisualStyleBackColor = true;
+            this.btnDiconnect.Click += new System.EventHandler(this.btnDiconnect_Click);
             // 
             // Form1
             // 
@@ -338,10 +356,10 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPort)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptcMark)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtPort)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -376,6 +394,7 @@
         private System.Windows.Forms.TextBox txbIP;
         private System.Windows.Forms.Button btnUnPause;
         private System.Windows.Forms.Timer timerEnablePause;
+        private System.Windows.Forms.Button btnDiconnect;
     }
 }
 

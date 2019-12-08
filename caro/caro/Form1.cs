@@ -159,6 +159,7 @@ namespace caro
         private void btnLan_Click(object sender, EventArgs e)
         {
             Connect();
+            
         }
 
         private void Connect()
@@ -166,36 +167,50 @@ namespace caro
             if (sck != null) sck.Close();
             sck = new SocketMangaer();
             sck.IP = txbIP.Text;
+            sck.PORT = (int)txtPort.Value;
             this.statusBar.Text = "processing....";
             Thread thread = new Thread(() =>
             {
                 if (!sck.ConnectServer())
                 {
-                    sck.CreateServer();
-                   if(!otherPlayQuit)  this.statusBar.Text = "you are server";
-                   else this.statusBar.Text = "other player is quit , now you are server";
-                    this.FirstPlay = true;
-
-                    Thread listenThread = new Thread(() =>
+                    bool kq = true;
+                    sck.CreateServer(out kq);
+                    if (kq == true)
                     {
-                        while (true)
+                        if (!otherPlayQuit) this.statusBar.Text = "you are server";
+                        else this.statusBar.Text = "other player is quit , now you are server";
+                        this.FirstPlay = true;
+
+                        btnLan.Enabled = false;
+                        btnDiconnect.Enabled = true;
+
+                        Thread listenThread = new Thread(() =>
                         {
-
-                            try
-                            {
-                                SocketData data = (SocketData)sck.ReceiveData();
-                                ProcessData(data);
-
-                                break;
-                            }
-                            catch
+                            while (true)
                             {
 
+                                try
+                                {
+                                    SocketData data = (SocketData)sck.ReceiveData();
+                                    ProcessData(data);
+
+                                    break;
+                                }
+                                catch
+                                {
+
+                                }
                             }
-                        }
-                    });
-                    listenThread.IsBackground = true;
-                    listenThread.Start();
+                        });
+                        listenThread.IsBackground = true;
+                        listenThread.Start();
+                    }
+                    else
+                    {
+                        this.statusBar.Text = "cant connect pls check your port";
+                    }
+                    
+
                 }
                 else
                 {
@@ -204,6 +219,7 @@ namespace caro
 
                     sck.SendData(new SocketData((int)SocketCommand.PLAYER_NAME, txbPlayerName.Text, null));
                 }
+
             });
             thread.IsBackground = true;
             thread.Start();
@@ -291,6 +307,7 @@ namespace caro
                     {
                         this.otherPlayer = false;
                         this.Invoke(new control(ResetChessBroad));
+
                     }
                     break;
                 case (int)SocketCommand.PAUSE_GAME:
@@ -324,7 +341,22 @@ namespace caro
             btnPause.Enabled = false;
             otherPlayQuit = true;
             Connect();
-           
+
+
+        }
+        private void ResetChessBroadAndDisconnect()
+        {
+            pcbCoolDown.Value = 0;
+
+            timerCoolDown.Interval = constant.coolDownInterver;
+            chessBroad.DrawChessBroad();
+
+            panelChessBroad.Enabled = false;
+            btnUnPause.Visible = false;
+            btnPause.Enabled = false;
+            otherPlayQuit = true;
+
+            sck.Close();
 
         }
 
@@ -397,7 +429,7 @@ namespace caro
             else
                 try { sck.SendData(new SocketData((int)SocketCommand.QUIT, null, null)); }
                 catch { };
-            
+
 
         }
 
@@ -469,6 +501,20 @@ namespace caro
                 countPauseTime = 0;
                 this.timerEnablePause.Stop();
             }
+        }
+
+        private void btnDiconnect_Click(object sender, EventArgs e)
+        {
+            sck.SendData(new SocketData((int)SocketCommand.QUIT, null, null));
+            Thread thread = new Thread(() =>
+            {
+              this.Invoke(new control(ResetChessBroadAndDisconnect));
+            });
+            thread.IsBackground = true;
+            thread.Start();
+            btnLan.Enabled = true;
+            btnDiconnect.Enabled = false;
+            this.statusBar.Text = "you are disconnected";
         }
     }
 }

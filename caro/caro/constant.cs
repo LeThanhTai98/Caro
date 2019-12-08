@@ -14,6 +14,7 @@ namespace caro
         public static int chess_HEIGHT = 150;
         public static int chessBroad_WIDTH = 4;
         public static int chessBroad_HEIGHT = 3;
+        public static int numberChessToWin = 3;
         //
         private static Button btn = new Button();
         public static Color chessOneColor = Color.Red;
@@ -23,7 +24,7 @@ namespace caro
         public static int coolDownTime = 10000;
         public static int coolDownInterver = 100;
 
-        public static int pauseTime = 5;
+        public static int pauseTime = 50;
         public static Color getButtonColor()
         {
             return btn.BackColor;

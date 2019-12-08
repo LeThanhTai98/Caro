@@ -22,19 +22,36 @@ namespace caro
         Socket server;
         Socket client;
         #region server
-        public void CreateServer()
+        public void CreateServer(out bool kq )
         {
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IP), PORT);
-            server.Bind(ep);
+            try
+            {
 
-            server.Listen(10);
-
+                server.Bind(ep);
+                server.Listen(10);
+                
+            }
+            catch
+            {
+                kq = false;
+                return;
+            }
+        
+            kq = true;
             try
             {
                 Thread acceptClient = new Thread(() =>
                 {
-                    client = server.Accept();
+                    try
+                    {
+                        client = server.Accept();
+                    }
+                    catch
+                    {
+
+                    }
                 });
                 acceptClient.IsBackground = true;
                 acceptClient.Start();
