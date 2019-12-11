@@ -54,20 +54,24 @@
             this.pcbCoolDown = new System.Windows.Forms.ProgressBar();
             this.txbPlayerName = new System.Windows.Forms.TextBox();
             this.timerCoolDown = new System.Windows.Forms.Timer(this.components);
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerEnablePause = new System.Windows.Forms.Timer(this.components);
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptcMark)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelChessBroad
             // 
             this.panelChessBroad.BackColor = System.Drawing.SystemColors.Control;
-            this.panelChessBroad.Location = new System.Drawing.Point(12, 12);
+            this.panelChessBroad.Location = new System.Drawing.Point(12, 27);
             this.panelChessBroad.Name = "panelChessBroad";
             this.panelChessBroad.Size = new System.Drawing.Size(452, 471);
             this.panelChessBroad.TabIndex = 0;
@@ -76,10 +80,10 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.txtChat);
             this.panel2.Controls.Add(this.btnSendText);
+            this.panel2.Controls.Add(this.txtChat);
             this.panel2.Controls.Add(this.ChatBoard);
-            this.panel2.Location = new System.Drawing.Point(498, 20);
+            this.panel2.Location = new System.Drawing.Point(498, 27);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(254, 173);
             this.panel2.TabIndex = 1;
@@ -87,7 +91,7 @@
             // 
             // txtChat
             // 
-            this.txtChat.Location = new System.Drawing.Point(-2, 122);
+            this.txtChat.Location = new System.Drawing.Point(-2, 120);
             this.txtChat.Multiline = true;
             this.txtChat.Name = "txtChat";
             this.txtChat.Size = new System.Drawing.Size(185, 49);
@@ -95,7 +99,7 @@
             // 
             // btnSendText
             // 
-            this.btnSendText.Location = new System.Drawing.Point(180, 122);
+            this.btnSendText.Location = new System.Drawing.Point(178, 120);
             this.btnSendText.Name = "btnSendText";
             this.btnSendText.Size = new System.Drawing.Size(72, 49);
             this.btnSendText.TabIndex = 1;
@@ -105,7 +109,7 @@
             // 
             // ChatBoard
             // 
-            this.ChatBoard.Location = new System.Drawing.Point(-2, -2);
+            this.ChatBoard.Location = new System.Drawing.Point(-5, -2);
             this.ChatBoard.Name = "ChatBoard";
             this.ChatBoard.ReadOnly = true;
             this.ChatBoard.Size = new System.Drawing.Size(254, 173);
@@ -134,7 +138,7 @@
             this.panel3.Controls.Add(this.ptcMark);
             this.panel3.Controls.Add(this.pcbCoolDown);
             this.panel3.Controls.Add(this.txbPlayerName);
-            this.panel3.Location = new System.Drawing.Point(498, 199);
+            this.panel3.Location = new System.Drawing.Point(498, 214);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(254, 284);
             this.panel3.TabIndex = 2;
@@ -209,6 +213,11 @@
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(87, 20);
             this.txtPort.TabIndex = 12;
+            this.txtPort.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
             // 
             // btnClientFirst
             // 
@@ -319,34 +328,61 @@
             // 
             this.timerCoolDown.Tick += new System.EventHandler(this.timerCoolDown_Tick);
             // 
-            // statusStrip1
+            // timerEnablePause
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 482);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(764, 22);
-            this.statusStrip1.TabIndex = 3;
-            this.statusStrip1.Text = "statusStrip1";
+            this.timerEnablePause.Tick += new System.EventHandler(this.timerEnablePause_Tick);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(764, 24);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playHistoryToolStripMenuItem});
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuToolStripMenuItem.Text = "Menu";
+            // 
+            // playHistoryToolStripMenuItem
+            // 
+            this.playHistoryToolStripMenuItem.Name = "playHistoryToolStripMenuItem";
+            this.playHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playHistoryToolStripMenuItem.Text = "play history";
+            this.playHistoryToolStripMenuItem.Click += new System.EventHandler(this.playHistoryToolStripMenuItem_Click);
             // 
             // statusBar
             // 
             this.statusBar.Name = "statusBar";
             this.statusBar.Size = new System.Drawing.Size(0, 17);
             // 
-            // timerEnablePause
+            // statusStrip1
             // 
-            this.timerEnablePause.Tick += new System.EventHandler(this.timerEnablePause_Tick);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusBar});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 500);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(764, 22);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 504);
+            this.ClientSize = new System.Drawing.Size(764, 522);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelChessBroad);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -358,6 +394,8 @@
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPort)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptcMark)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -382,8 +420,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnChangeName;
         private System.Windows.Forms.Button btnReady;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel statusBar;
         private System.Windows.Forms.RadioButton btnClientFirst;
         private System.Windows.Forms.RadioButton btnServerFirst;
         private System.Windows.Forms.Button btnPause;
@@ -395,6 +431,11 @@
         private System.Windows.Forms.Button btnUnPause;
         private System.Windows.Forms.Timer timerEnablePause;
         private System.Windows.Forms.Button btnDiconnect;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem playHistoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel statusBar;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }
 

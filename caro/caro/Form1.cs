@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -68,11 +69,15 @@ namespace caro
                 form.ShowDialog();
             }
 
+      
 
             if (string.IsNullOrEmpty(playerName))
                 Environment.Exit(1);
 
             InitializeComponent();
+
+            ChatBoard.Multiline = true;
+            ChatBoard.ScrollBars = RichTextBoxScrollBars.Both;
 
             sck = new SocketMangaer();
 
@@ -106,12 +111,24 @@ namespace caro
             timerCoolDown.Stop();
             panelChessBroad.Enabled = false;
             btnPause.Enabled = false;
-            MessageBox.Show(msg);
+
+            txbPlayerName.Enabled = true;
+            btnChangeName.Enabled = true;
+
             if (!sck.isServer) this.statusBar.Text = "you are not ready";
             else this.statusBar.Text = "client is not ready";
+
+            
+            writeFile();
+            MessageBox.Show(msg);
+
+            chessBroad.SetThisPlayer();
+
         }
+        bool check = false;
         private void ChessBroad_EndedGame(object sender, EventArgs e)
         {
+            check = true;
             endGame("Out of chess ");
         }
 
@@ -124,7 +141,68 @@ namespace caro
 
             Listen();
         }
+        void writeFile()
+        {
 
+            using (StreamWriter sw = new StreamWriter("E:\\test.txt", true))
+            {
+                sw.WriteLine("");
+
+                DateTime now = DateTime.Now;
+
+                sw.WriteLine("Time: " + now);
+
+                sw.WriteLine("Participant: " + OtherPlayerName + " And " + txbPlayerName.Text);
+
+               if (check) sw.WriteLine("draw");
+               else  sw.WriteLine("Winer:" + chessBroad.getCurrentPlayer());
+
+                check = false;
+                //sw.WriteLine(DateTime.Now.ToString() + Environment.NewLine);
+                sw.Flush();
+
+                sw.Close();
+            }
+            //String filepath = "E:\\test.txt";// đường dẫn của file muốn tạo
+
+            //FileStream fs = new FileStream(filepath, FileMode.Create);//Tạo file mới tên là test.txt           
+
+            //StreamWriter sWriter = new StreamWriter(fs, Encoding.UTF8);//fs là 1 FileStream
+
+
+
+
+
+            // Ghi và đóng file
+
+
+        }
+
+        void readFile()
+        {
+            //string[] lines = File.ReadAllLines(@"E:\test.txt");
+
+
+            //foreach (string s in lines)
+            //{
+            //    textBox2.Text = s;
+
+            //}
+            string path = "E:\test.txt";
+
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs);
+            sr.BaseStream.Seek(0, SeekOrigin.Begin);
+            string str;
+            //doc tat ca du lieu trong file luu vao str;
+            str = sr.ReadToEnd();
+
+
+            sr.Close();
+            fs.Close();
+
+
+        }
         private void panelChessBroad_Paint(object sender, PaintEventArgs e)
         {
 
@@ -276,8 +354,9 @@ namespace caro
                     break;
                 case (int)SocketCommand.SEND_POINT:
                     {
-                        chessBroad.OtherPlayerAction((Point)data.Point);
                         panelChessBroad.Enabled = true;
+                        chessBroad.OtherPlayerAction((Point)data.Point);
+                       
                         pcbCoolDown.Value = 0;
                         timerCoolDown.Start();
                     }
@@ -353,20 +432,7 @@ namespace caro
         bool otherPlayQuit = false;
         private void ResetChessBroad()
         {
-            pcbCoolDown.Value = 0;
-            OtherPlayerName = null;
-            timerCoolDown.Interval = constant.coolDownInterver;
-            timerCoolDown.Stop();
-            chessBroad.DrawChessBroad();
-
-            panelChessBroad.Enabled = false;
-            btnUnPause.Visible = false;
-            btnPause.Enabled = false;
-
-            btnReady.Visible = false;
-
-
-
+            ReDrawChessBroad();
 
             if (sck.isServer)
             {
@@ -381,18 +447,28 @@ namespace caro
             }
 
         }
-        private void ResetChessBroadAndDisconnect()
+
+        private void ReDrawChessBroad()
         {
             pcbCoolDown.Value = 0;
             OtherPlayerName = null;
             timerCoolDown.Interval = constant.coolDownInterver;
-            chessBroad.DrawChessBroad();
             timerCoolDown.Stop();
+            chessBroad.DrawChessBroad();
+
             panelChessBroad.Enabled = false;
             btnUnPause.Visible = false;
             btnPause.Enabled = false;
 
             btnReady.Visible = false;
+
+            txbPlayerName.Enabled = true;
+            btnChangeName.Enabled = true;
+        }
+
+        private void ResetChessBroadAndDisconnect()
+        {
+            ReDrawChessBroad();
 
             sck.Close();
 
@@ -442,8 +518,10 @@ namespace caro
             {
                 chessBroad.DrawChessBroad();
                 chessBroad.ResetCurrentPlayer();
+                this.txbPlayerName.Enabled = false;
+                this.btnChangeName.Enabled = false;
                 if (this.FirstPlay) panelChessBroad.Enabled = true;
-                else { panelChessBroad.Enabled = false; chessBroad.changeCurrentColor(); chessBroad.changeCurrentPlayer(); }
+                else { panelChessBroad.Enabled = false; chessBroad.SwapCurrentColor(); chessBroad.changeCurrentPlayer(); }
                 pcbCoolDown.Value = 0;
                 btnPause.Enabled = true;
                 timerCoolDown.Start();
@@ -559,6 +637,14 @@ namespace caro
             thread.IsBackground = true;
             thread.Start();
 
+        }
+        public delegate void delPassData(TextBox text);
+        private void playHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form2 frm = new Form2();
+            delPassData del = new delPassData(frm.funData);
+
+            frm.Show();
         }
     }
 }

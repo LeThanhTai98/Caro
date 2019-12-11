@@ -132,6 +132,15 @@ namespace caro
             return isEndGameHorizontal(btn) || isEndGameVertical(btn) || isEndGamePrimary(btn) || isEndGamesub(btn) ;
         }
 
+        public void SetThisPlayer()
+        {
+            chessBroad.Enabled = false;
+            playerName.Text = listPlayer[0].Name;
+
+            if (listPlayer[0].color == 1) mark.BackColor = constant.chessOneColor;
+            else mark.BackColor = constant.chessTwoColor;
+        }
+
         private Point getChessPoint(Button btn)
         {
             
@@ -367,7 +376,7 @@ namespace caro
             this.listPlayer[0].color = 1;
             this.listPlayer[1].color = 2;
         }
-        public void changeCurrentColor()
+        public void SwapCurrentColor()
         {
             var temp = this.listPlayer[0].color;
             this.listPlayer[0].color = this.listPlayer[1].color;

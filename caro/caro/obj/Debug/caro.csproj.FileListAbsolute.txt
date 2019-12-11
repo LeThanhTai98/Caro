@@ -16,3 +16,4 @@ C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.Properties.Re
 C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.csproj.GenerateResource.cache
 C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.exe
 C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.pdb
+C:\Users\Thanh Tai\Desktop\webPublic\Caro\caro\caro\obj\Debug\caro.Form2.resources
