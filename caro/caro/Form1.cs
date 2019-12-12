@@ -389,8 +389,8 @@ namespace caro
                     break;
                 case (int)SocketCommand.FIRSTPLAY:
                     {
-                        if (data.Message == "2") this.FirstPlay = true;
-                        else if (data.Message == "1") this.FirstPlay = false;
+                        if (data.Message == "2") {  this.btnClientFirst.Checked = true; }
+                        else if (data.Message == "1") {  this.btnServerFirst.Checked = true; }
                     }
                     break;
                 case (int)SocketCommand.QUIT:
@@ -430,6 +430,7 @@ namespace caro
         }
 
         bool otherPlayQuit = false;
+        // for client 
         private void ResetChessBroad()
         {
             ReDrawChessBroad();
@@ -447,7 +448,7 @@ namespace caro
             }
 
         }
-
+        // for server
         private void ReDrawChessBroad()
         {
             pcbCoolDown.Value = 0;
@@ -539,6 +540,8 @@ namespace caro
                 }
             }
         }
+
+   // quit
         private void button2_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -580,8 +583,13 @@ namespace caro
         {
             if (btnClientFirst.Checked && sck != null)
             {
-                sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "2", null));
-                this.FirstPlay = false;
+                if (sck.isServer)
+                {
+                    sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "2", null));
+
+                    this.FirstPlay = false;
+                }
+                else this.FirstPlay = true;
             }
         }
 
@@ -589,8 +597,13 @@ namespace caro
         {
             if (btnServerFirst.Checked && sck != null)
             {
-                sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "1", null));
-                this.FirstPlay = true;
+                if (sck.isServer)
+                {
+                    sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "1", null));
+
+                    this.FirstPlay = true;
+                }
+                else this.FirstPlay = false;
             }
         }
 

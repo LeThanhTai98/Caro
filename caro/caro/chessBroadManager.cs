@@ -58,7 +58,7 @@ namespace caro
             }
         }
         //initialize
-        public chessBroadManager(Panel chessBroad , TextBox playerName , PictureBox mark )
+        public chessBroadManager(Panel chessBroad, TextBox playerName, PictureBox mark)
         {
             this.chessBroad = chessBroad;
             this.listPlayer = new List<player>()
@@ -69,12 +69,12 @@ namespace caro
             this.playerName = playerName;
             this.mark = mark;
             currentPlayer = 0;
-    
+
             setCurrentPlayer();
-         
+
         }
-        
-        public void  DrawChessBroad()
+
+        public void DrawChessBroad()
         {
             chessBroad.Controls.Clear();
             Matrix = new List<List<Button>>();
@@ -91,9 +91,9 @@ namespace caro
                         Height = constant.chess_HEIGHT,
                         Location = new Point(oldBtn.Location.X + oldBtn.Width, oldBtn.Location.Y),
                         Tag = j.ToString()
-                    //   , BackgroundImageLayout = ImageLayout.Stretch
+                        //   , BackgroundImageLayout = ImageLayout.Stretch
                     };
-                    btn.Click += Btn_Click; 
+                    btn.Click += Btn_Click;
                     chessBroad.Controls.Add(btn);
                     oldBtn = btn;
 
@@ -103,20 +103,20 @@ namespace caro
                 oldBtn.Width = 0;
                 oldBtn.Height = 0;
             }
-            
+
         }
 
         public void EndGame()
         {
-          if (endGame != null)
+            if (endGame != null)
             {
                 endGame(this, new EventArgs());
-            }                  
+            }
         }
         private bool isEndGame(Button btn)
         {
 
-            return  isEndGameOutOffChess(btn);
+            return isEndGameOutOffChess(btn);
         }
 
         public void WinGame()
@@ -129,7 +129,7 @@ namespace caro
         private bool isWinGame(Button btn)
         {
 
-            return isEndGameHorizontal(btn) || isEndGameVertical(btn) || isEndGamePrimary(btn) || isEndGamesub(btn) ;
+            return isEndGameHorizontal(btn) || isEndGameVertical(btn) || isEndGamePrimary(btn) || isEndGamesub(btn);
         }
 
         public void SetThisPlayer()
@@ -143,12 +143,12 @@ namespace caro
 
         private Point getChessPoint(Button btn)
         {
-            
+
 
             int vertical = Convert.ToInt32(btn.Tag);
             int horizontal = Matrix[vertical].IndexOf(btn);
 
-            Point point = new Point(horizontal,vertical);
+            Point point = new Point(horizontal, vertical);
 
             return point;
         }
@@ -224,7 +224,8 @@ namespace caro
 
 
             for (int i = 0; i <= point.X; i++)
-            {   if (point.X - i < 0 || point.Y - i < 0)
+            {
+                if (point.X - i < 0 || point.Y - i < 0)
                     break;
                 if (Matrix[point.Y - i][point.X - i].BackColor == btn.BackColor)
                 {
@@ -234,10 +235,10 @@ namespace caro
             }
             for (int i = 1; i <= constant.chessBroad_WIDTH; i++)
             {
-                if (point.X + i >= constant.chessBroad_HEIGHT  || point.Y + i >= constant.chessBroad_WIDTH - 1)
+                if (point.X + i >= constant.chessBroad_HEIGHT || point.Y + i >= constant.chessBroad_WIDTH - 1)
                     break;
 
-                    if (Matrix[point.Y + i][point.X + i].BackColor == btn.BackColor)
+                if (Matrix[point.Y + i][point.X + i].BackColor == btn.BackColor)
                 {
                     countBottom++;
                 }
@@ -256,7 +257,7 @@ namespace caro
 
 
             for (int i = 0; i <= constant.chessBroad_HEIGHT; i++)
-                        {
+            {
                 if (point.X + i >= constant.chessBroad_HEIGHT || point.Y - i < 0)
                     break;
                 if (Matrix[point.X + i][point.Y - i].BackColor == btn.BackColor)
@@ -267,10 +268,10 @@ namespace caro
             }
             for (int i = 1; i <= point.X; i++)
             {
-                if (point.X - i < 0 || point.Y + i >= constant.chessBroad_WIDTH - 1 )
+                if (point.X - i < 0 || point.Y + i >= constant.chessBroad_WIDTH - 1)
                     break;
 
-                if (Matrix[point.X- i][point.Y + i].BackColor == btn.BackColor && point.Y - i != point.X && point.X + i != point.Y)
+                if (Matrix[point.X - i][point.Y + i].BackColor == btn.BackColor && point.Y - i != point.X && point.X + i != point.Y)
                 {
                     countBottom++;
                 }
@@ -283,12 +284,12 @@ namespace caro
         private bool isEndGameOutOffChess(Button btn)
         {
             for (int j = 0; j < constant.chessBroad_HEIGHT; j++)
-                for (int i = 0; i < constant.chessBroad_WIDTH-1; i++)
+                for (int i = 0; i < constant.chessBroad_WIDTH - 1; i++)
                     if (Matrix[j][i].BackColor == constant.getButtonColor()) return false;
             return true;
         }
 
-       
+
 
         private void Btn_Click(object sender, EventArgs e)
         {
@@ -312,10 +313,10 @@ namespace caro
                 return;
             }
             changeCurrentPlayer();
-           
+
         }
 
-       
+
 
         public void OtherPlayerAction(Point Point)
         {
@@ -326,7 +327,7 @@ namespace caro
             // btn.BackgroundImage 
             changeChessColor(btn);
 
-          
+
             if (isWinGame(btn))
             {
                 WinGame();
@@ -353,7 +354,7 @@ namespace caro
 
         public void changeCurrentPlayer()
         {
-            
+
             if (currentPlayer == listPlayer.Count - 1) currentPlayer = 0;
             else currentPlayer++;
 
@@ -393,6 +394,6 @@ namespace caro
 
         public Point ClickPoint { get; set; }
 
-      
+
     }
 }
