@@ -639,7 +639,9 @@ namespace caro
 
         }
         public delegate void delPassData(TextBox text);
-        private void playHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+       
+
+        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form2 frm = new Form2();
             delPassData del = new delPassData(frm.funData);

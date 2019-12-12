@@ -31,8 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.panelChessBroad = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.txtChat = new System.Windows.Forms.TextBox();
             this.btnSendText = new System.Windows.Forms.Button();
+            this.txtChat = new System.Windows.Forms.TextBox();
             this.ChatBoard = new System.Windows.Forms.RichTextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnDiconnect = new System.Windows.Forms.Button();
@@ -57,7 +57,6 @@
             this.timerEnablePause = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.playHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusBar = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.panel2.SuspendLayout();
@@ -89,14 +88,6 @@
             this.panel2.TabIndex = 1;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panelChessBroad_Paint);
             // 
-            // txtChat
-            // 
-            this.txtChat.Location = new System.Drawing.Point(-2, 120);
-            this.txtChat.Multiline = true;
-            this.txtChat.Name = "txtChat";
-            this.txtChat.Size = new System.Drawing.Size(185, 49);
-            this.txtChat.TabIndex = 0;
-            // 
             // btnSendText
             // 
             this.btnSendText.Location = new System.Drawing.Point(178, 120);
@@ -106,6 +97,14 @@
             this.btnSendText.Text = "Send";
             this.btnSendText.UseVisualStyleBackColor = true;
             this.btnSendText.Click += new System.EventHandler(this.btnSendText_Click);
+            // 
+            // txtChat
+            // 
+            this.txtChat.Location = new System.Drawing.Point(-2, 120);
+            this.txtChat.Multiline = true;
+            this.txtChat.Name = "txtChat";
+            this.txtChat.Size = new System.Drawing.Size(185, 49);
+            this.txtChat.TabIndex = 0;
             // 
             // ChatBoard
             // 
@@ -344,18 +343,10 @@
             // 
             // menuToolStripMenuItem
             // 
-            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.playHistoryToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.menuToolStripMenuItem.Text = "Menu";
-            // 
-            // playHistoryToolStripMenuItem
-            // 
-            this.playHistoryToolStripMenuItem.Name = "playHistoryToolStripMenuItem";
-            this.playHistoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.playHistoryToolStripMenuItem.Text = "play history";
-            this.playHistoryToolStripMenuItem.Click += new System.EventHandler(this.playHistoryToolStripMenuItem_Click);
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.menuToolStripMenuItem.Text = "play history";
+            this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
             // 
             // statusBar
             // 
@@ -433,7 +424,6 @@
         private System.Windows.Forms.Button btnDiconnect;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem playHistoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel statusBar;
         private System.Windows.Forms.StatusStrip statusStrip1;
     }

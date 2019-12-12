@@ -20,6 +20,18 @@ namespace caro
             textBox1.ScrollBars = ScrollBars.Both;
         }
 
+        
+        public void funData(TextBox txtForm1)
+        {
+            textBox1.Text = txtForm1.Text;
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+
+            this.Close();
+        }
+
         private void Form2_Load(object sender, EventArgs e)
         {
             string path = "E:\\test.txt";
@@ -35,16 +47,5 @@ namespace caro
             sr.Close();
             fs.Close();
         }
-        public void funData(TextBox txtForm1)
-        {
-            textBox1.Text = txtForm1.Text;
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Form2 form2 = new Form2();
-
-            this.Close();
-        }
-
     }
 }
