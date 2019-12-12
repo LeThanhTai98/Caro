@@ -24,6 +24,17 @@ namespace caro
 
         public Form1()
         {
+
+            using (StreamWriter sw = new StreamWriter("E:\\test.txt", true))
+            {
+           
+
+                
+                sw.Flush();
+
+                sw.Close();
+            }
+
             Control.CheckForIllegalCrossThreadCalls = false;
           
             using (Form form = new Form())
@@ -119,16 +130,16 @@ namespace caro
             else this.statusBar.Text = "client is not ready";
 
             
-            writeFile();
+            writeFile( msg);
             MessageBox.Show(msg);
 
             chessBroad.SetThisPlayer();
 
         }
-        bool check = false;
+        
         private void ChessBroad_EndedGame(object sender, EventArgs e)
         {
-            check = true;
+            
             endGame("Out of chess ");
         }
 
@@ -141,7 +152,7 @@ namespace caro
 
             Listen();
         }
-        void writeFile()
+        void writeFile(string msg)
         {
 
             using (StreamWriter sw = new StreamWriter("E:\\test.txt", true))
@@ -154,10 +165,9 @@ namespace caro
 
                 sw.WriteLine("Participant: " + OtherPlayerName + " And " + txbPlayerName.Text);
 
-               if (check) sw.WriteLine("draw");
-               else  sw.WriteLine("Winer:" + chessBroad.getCurrentPlayer());
+                sw.WriteLine(msg);
 
-                check = false;
+               
                 //sw.WriteLine(DateTime.Now.ToString() + Environment.NewLine);
                 sw.Flush();
 
@@ -224,9 +234,12 @@ namespace caro
             pcbCoolDown.PerformStep();
             if (pcbCoolDown.Value >= pcbCoolDown.Maximum)
             {
+                string playName = null;
+                if (this.playerName == chessBroad.getCurrentPlayer()) playName = this.OtherPlayerName;
+                else playName = this.playerName;
+                endGame("time out " + playName + " won");
 
-                endGame("het gio " + chessBroad.getCurrentPlayer() + " lost ");
-
+                
             }
         }
 
@@ -417,6 +430,8 @@ namespace caro
                         this.Invoke(new chat(UpdateChat), new object[] { data.Message });
                     }
                     break;
+           
+
                 default:
 
                     break;

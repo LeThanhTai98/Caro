@@ -34,6 +34,7 @@ namespace caro
         PLAYER_NAME,
         READY,
         FIRSTPLAY,
-        CHAT
+        CHAT,
+        TIMEOUT
     }
 }
