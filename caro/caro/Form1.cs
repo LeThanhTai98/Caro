@@ -294,6 +294,17 @@ namespace caro
                                     SocketData data = (SocketData)sck.ReceiveData();
                                     ProcessData(data);
 
+                                    if (btnServerFirst.Checked) {
+                                        sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "1", null));
+
+                                        this.FirstPlay = true;
+                                    }
+                                    else
+                                    {
+                                        sck.SendData(new SocketData((int)SocketCommand.FIRSTPLAY, "2", null));
+
+                                        this.FirstPlay = false;
+                                    }
                                     break;
                                 }
                                 catch
@@ -463,7 +474,7 @@ namespace caro
             }
 
         }
-        // for server
+      
         private void ReDrawChessBroad()
         {
             pcbCoolDown.Value = 0;
@@ -475,6 +486,9 @@ namespace caro
             panelChessBroad.Enabled = false;
             btnUnPause.Visible = false;
             btnPause.Enabled = false;
+            btnClientFirst.Enabled = true;
+            btnServerFirst.Enabled = true;
+
 
             btnReady.Visible = false;
 
@@ -482,6 +496,7 @@ namespace caro
             btnChangeName.Enabled = true;
         }
 
+        // for server
         private void ResetChessBroadAndDisconnect()
         {
             ReDrawChessBroad();
